@@ -1,0 +1,107 @@
+.filter{
+
+	display: flex;
+	flex-direction: column;
+	padding:10px;
+	transition:0.3s;
+	position:fixed;
+	height:100%;
+	background:white;
+	z-index:2000;
+	bottom:-100%;
+	padding-bottom:50px;
+	width:100%;
+}
+
+.filterDesktop{
+	
+}
+
+.mobileContainer{
+	overflow-x: scroll;
+	
+}
+
+.closeButtonContainer{
+	display: flex;
+	justify-content: flex-end;
+}
+
+
+
+.bottomButtons{
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    display: flex;
+    justify-content: center;
+    width:100%;
+}
+
+.filterItemsContainer{
+
+	display: flex;
+	flex-direction: column;
+
+}
+
+label{
+	display: flex;
+	align-self: flex-start;
+}
+
+.extras label{
+
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.checkboxButtonMargin{
+	margin-bottom:5px;
+	margin-top:5px;
+	
+
+}
+
+.containerPadding{
+	padding:10px 0;
+}
+
+.filterInputTextContainer{
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.floorSpaceInputContainer{
+	display: flex;
+	justify-content: space-between;
+
+}
+
+input[type="text"] {
+				border-radius:5px;
+				width:45%;
+				padding:0.4rem;
+				margin-right:2.5%;
+				margin-bottom: 1rem;
+			}
+
+
+@media (min-width:813px){
+	.filter{
+		display: flex;
+		width:30%;
+		margin:0;
+		max-width: 400px;
+		position:fixed;
+		top:58px;
+		left:0px;
+		height:100vh;
+
+	}
+
+}
+
