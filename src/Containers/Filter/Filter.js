@@ -126,8 +126,8 @@ console.log("AAAAAAAAAAAAAAA")
             </div>
             <div className={classes.filterItemsContainer}>
             <label htmlFor="city">City</label>
-            <select name="city" className="filters city" onChange={(e)=>this.filterHandler(e)}>
-              <option  value="All">All</option>
+            <select name="city" className="filters city" value={this.props.city} onChange={(e)=>this.filterHandler(e)}>
+              <option value="All">All</option>
               <option value="Miami">Miami</option>
               <option value="Atlanta">Atlanta</option>
               <option value="Charleston">Charleston</option>
@@ -195,12 +195,14 @@ console.log("AAAAAAAAAAAAAAA")
          						defaultValue={0}
          						
          						
+         						
          						>
 			      <ToggleButton
 			      			name="beds" 
 			      			style={{width:"49%",margin:"1px"}}
 			      			onChange={(e)=>{this.filterHandler(e)}} 
 			      			value={0}
+			      			
 			      			>All Beds
 
 			      </ToggleButton>
@@ -208,7 +210,10 @@ console.log("AAAAAAAAAAAAAAA")
 			      				
 			      			style={{width:"49%",margin:"1px"}} 
 			      			onChange={(e)=>{this.filterHandler(e)}}
-			      			value={1}>1+ Beds
+			      			value={1}
+
+			      			>1+ Beds
+
 			      </ToggleButton>
 			      <ToggleButton
 			      		name="beds" 
@@ -349,7 +354,9 @@ const mapStateToProps = state =>{
 		minPrice:state.listings.filter.min_price,
 		maxPrice:state.listings.filter.max_price,
 		minFloorspace:state.listings.filter.min_floorspace,
-		maxFloorspace:state.listings.filter.max_floorspace
+		maxFloorspace:state.listings.filter.max_floorspace,
+		city:state.listings.filter.city,
+		rooms:state.listings.filter.rooms
 
 	}
 

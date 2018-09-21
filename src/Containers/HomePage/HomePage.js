@@ -11,7 +11,8 @@ class HomePage extends Component{
 
 		this.state={
 
-			buttonTitle:"Choose a city"
+			buttonTitle:"Choose a city",
+
 
 		}
 
@@ -28,7 +29,7 @@ class HomePage extends Component{
 	redirectToListings = () =>{
 		if(this.state.buttonTitle !== "Choose a city"){
 
-			this.props.history.push("/listings?city="+this.state.buttonTitle);
+			this.props.history.push("/listings/"+this.state.buttonTitle+"_city");
 
 		}
 
