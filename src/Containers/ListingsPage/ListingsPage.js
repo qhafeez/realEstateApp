@@ -31,9 +31,8 @@ class ListingsPage extends Component{
 			// gym:false,
 			// filteredData:listingsData,
 			// populateFormsData: "",
-			// view:"long"
-
-
+			// view:"long",
+			filter:null
 
 		}
 
@@ -174,32 +173,63 @@ sortHandler = (event) =>{
 //         console.log(this.state)})
 
 // }
+componentDidUpdate(prevProps, prevState){
 
-
-componentDidMount(){
-
-	let city;
-	let value;
-	let params = new URLSearchParams(this.props.location.search);
-
-	for(let item of params.entries()){
-
-		console.log(item);
-
-		if(item[0] === "city"){
-			
-			city=item[0];
-			value=item[1];
-		}
+	// if(prevState.filter !== this.props.filter){
+	// 	this.setState({
+	// 		filter:this.props.filter
+	// 	}, ()=>{
+	// 		console.log(this.state.filter)
+	// 	})
+	// }
+	if(prevProps.match.params !== this.props.match.params){
+		this.props.sortAction(this.props.match.params);
+		console.log("listing page did update");
+		console.log(this.props.match.params);
 
 	}
 
-	this.props.sortAction(city, value);
+}
 
-	console.log(city + " " + value);
+componentDidMount(){
+
+	// let city;
+	// let value;
+	// let params = new URLSearchParams(this.props.location.search);
+
+	// for(let item of params.entries()){
+
+	// 	console.log(item);
+
+	// 	if(item[0] === "city"){
+			
+	// 		city=item[0];
+	// 		value=item[1];
+	// 	}
+
+	// }
+
+	// this.props.sortAction(city, value);
+
+	// console.log(city + " " + value);
 
 
-	this.props.filteredDataFunction();
+	// this.props.filteredDataFunction();
+	// this.setState({
+	// 	filter:this.props.filter
+	// },()=>{
+	// 	console.log(this.state.filter);
+	// })
+	// // console.log(this.props);
+
+	// let aaa = "500_minPrice";
+	// 	console.log(aaa.substring(0, aaa.indexOf("_")));
+	// 	console.log(aaa.substring(aaa.indexOf("_")+1));
+
+	console.log(this.props.match.params);
+	this.props.sortAction(this.props.match.params)
+
+
 }
 
 
@@ -244,6 +274,7 @@ componentDidMount(){
 const mapStateToProps = state =>{
 
 	return{
+		filter:state.listings.filter,
 		filteredData: state.listings.filteredListings,
 		modalStatus:state.listings.modalShow,
 		selectedPicture:state.listings.selectedListingPicture
@@ -255,7 +286,8 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch =>{
 
 	return{
-		sortAction: (name, value)=>{dispatch(actions.filterActionPlusData(name, value))},
+		sortAction: (value)=>{dispatch(actions.filterActionPlusData(value))},
+		// sortAction: (name, value)=>{dispatch(actions.filterActionPlusData(name, value))},
 		filteredDataFunction:()=>{dispatch(actions.filterData())},
 		modalToggle:()=>{dispatch(actions.listingModalToggle())}
 	}

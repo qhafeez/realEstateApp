@@ -1,17 +1,18 @@
 import store from "../reducers/listingReducer";
 
-export const filterAction =(name, value)=>{
+export const filterAction =(value)=>{
 
 
-console.log(name, value);
+// console.log(name, value);
 	
 
 	return{
 			type:"FILTER_ACTION",
-			filterObj:{
-				cat:name,
-				value:value
-			}
+			// filterObj:{
+			// 	cat:name,
+			// 	value:value
+			// }
+			filterObj:value
 	}
 
 }

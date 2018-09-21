@@ -19,11 +19,19 @@ class Filter extends Component{
 					backgroundColor:"#3697EE",
 					color:"white"
 					},
-			rooms:"All",
-			min_price:0,
-			max_price:1000000,
-			min_floorspace:0,
-			max_floorspace:50000
+			filter:{
+				city:null,
+				homeType:null,
+				rooms:null,
+				min_price:null,
+				max_price:null,
+				min_floorspace:null,
+				max_floorspace:null,
+				elevator:false,
+				swimming_pool:false,
+				finished_basement:false,
+				gym:false
+			}
 
 		}
 
@@ -59,32 +67,45 @@ class Filter extends Component{
 
 	}
 
+	urlFilterBuilder = () =>{
+
+		let filterParams = {...this.state.filter};
+		let urlString = "";
+		for(let param in filterParams){
+			
+			if(filterParams[param]){
+				urlString += filterParams[param]+"_"+param+"/";
+			}
+
+		}
+		this.props.history.replace("/listings/"+urlString);
+
+	}
+
 	filterHandler =(event)=>{
+
+
 		
 		let name= event.target.type === "checkbox" ? event.target.value : event.target.name;
 		let value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
-		console.log(name, value);
+		console.log(event.target);
 
-		this.props.filterChange(name, value);
+		// this.props.filterChange(name, value);
+		let updatedFilter = {...this.state.filter};
+			updatedFilter[name] = value;
+
+		this.setState({
+			filter:updatedFilter
+		}, ()=>{
+			this.urlFilterBuilder()
+		})
+
 
 
 	}
 	
 	componentDidMount(){
-
-		const query= new URLSearchParams(this.props.location.search);
-
-		let city = null;
-
-		console.log(query);
-
-			for(let param of query.entries()){
-				
-				console.log(param);	
-
-			}
-
-			console.log(city);
+console.log("AAAAAAAAAAAAAAA")
 
 		
 
@@ -106,7 +127,7 @@ class Filter extends Component{
             <div className={classes.filterItemsContainer}>
             <label htmlFor="city">City</label>
             <select name="city" className="filters city" onChange={(e)=>this.filterHandler(e)}>
-              <option value="All">All</option>
+              <option  value="All">All</option>
               <option value="Miami">Miami</option>
               <option value="Atlanta">Atlanta</option>
               <option value="Charleston">Charleston</option>
@@ -251,8 +272,8 @@ class Filter extends Component{
 			      			className={classes.checkboxButtonMargin} 
 			      			style={this.state.Elevators ? this.state.activeCSS : null }
 			      			onChange={(e)=>{this.filterHandler(e)}}
-			      			name={"elevators"}
-			      			value={"elevators"}>Elevators
+			      			name="elevator"
+			      			value={"elevator"}>Elevators
 
 			      </ToggleButton>
 			      <ToggleButton
@@ -325,10 +346,10 @@ const mapStateToProps = state =>{
 
 	return{
 
-		minPrice:state.listings.min_price,
-		maxPrice:state.listings.max_price,
-		minFloorspace:state.listings.min_floorspace,
-		maxFloorspace:state.listings.max_floorspace
+		minPrice:state.listings.filter.min_price,
+		maxPrice:state.listings.filter.max_price,
+		minFloorspace:state.listings.filter.min_floorspace,
+		maxFloorspace:state.listings.filter.max_floorspace
 
 	}
 
