@@ -115,14 +115,22 @@ console.log("AAAAAAAAAAAAAAA")
 
 
 	render(){
+				let style =null; 
+				if(!this.props.show && window.innerWidth >= 813){
+					style ={display:"none"}
+				}
+
+				if(this.props.show && window.innerWidth < 813){
+					style = {bottom:"0"}
+				}
 
 		
 		return(
-				<section  style={this.props.show ? {bottom:"0" }: {}} className={[classes.filter, classes.filterDesktop].join(" ")}>
+				<section  style={style} className={[classes.filter, classes.filterDesktop].join(" ")}>
              <div className={classes.mobileContainer}>
 
             <div onClick={this.props.closeModal} className={classes.closeButtonContainer}>
-            	<Icon icon={close}/>
+            	<Icon size={24} icon={close}/>
             </div>
             <div className={classes.filterItemsContainer}>
             <label htmlFor="city">City</label>
@@ -216,7 +224,7 @@ console.log("AAAAAAAAAAAAAAA")
 
 			      </ToggleButton>
 			      <ToggleButton
-			      		name="beds" 
+			      		// name="beds" 
 			      		style={{width:"49%",margin:"1px"}}
 			      		onChange={(e)=>{this.filterHandler(e)}} 
 			      		value={2}>2+ Beds

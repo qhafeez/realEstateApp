@@ -23,9 +23,13 @@ select{
 @media(min-width: 813px){
 
 	.resultsContainer{
-
-		width:70%;
-		margin-top:43px;
+		display:block !important;
+		width:40%;
+		margin-top:0;
+		position:fixed;
+		right:0;
+		height:100vh;
+		overflow-y: scroll;
 
 	}
 

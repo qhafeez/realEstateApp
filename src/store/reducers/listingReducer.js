@@ -3,6 +3,7 @@ import * as actions from "../actions/listingActions";
 
 const initialState = {
 
+	selectedListingLatLng:null,
 	listingsData: listingsData,
 	filteredListings:listingsData,
 	sortBy:"ASC",
@@ -200,6 +201,20 @@ const reducer = (state = initialState, action) =>{
 			return {
 				...state,
 				filteredListings: newData
+			}
+
+			case "ADD_LAT_LNG":
+
+			return{
+					...state,
+					listingsData:action.listings
+			}
+
+			case "SELECTED_LAT_LNG":
+
+			return{
+					...state,
+					selectedListingLatLng:action.selectedListingLatLng
 			}	
 
 	}

@@ -2,7 +2,7 @@ let listingsData = [
 
 	{	
 		id:1,
-		address:"20-34 Grand Ave",
+		address:"210 SW 178th Way",
 		city: "Pembroke Pines",
 		state:"FL",
 		rooms:3,
@@ -80,7 +80,7 @@ let listingsData = [
 	},
 	{
 		id:6,
-		address:"20-34 Grand Ave",
+		address:"601 Biscayne Blvd",
 		city: "Miami",
 		state:"FL",
 		rooms:1,
@@ -97,8 +97,8 @@ let listingsData = [
 	},
 	{
 		id:7,
-		address:"20-34 Grand Ave",
-		city: "Pembroke Pines",
+		address:"501 Marlins Way",
+		city: "Miami",
 		state:"FL",
 		rooms:3,
 		price:320000,
@@ -249,7 +249,7 @@ let listingsData = [
 	},
 	{
 		id:17,
-		address:"20-34 Grand Ave",
+		address:"1435 Brickell Ave",
 		city: "Miami",
 		state:"FL",
 		rooms:2,
@@ -265,7 +265,7 @@ let listingsData = [
 	},
 	{
 		id:18,
-		address:"20-34 Grand Ave",
+		address:"SW 8th St",
 		city: "Miami",
 		state:"FL",
 		rooms:3,
@@ -281,7 +281,7 @@ let listingsData = [
 	},
 	{
 		id:19,
-		address:"20-34 Grand Ave",
+		address:"2060 Biscayne Blvd",
 		city: "Miami",
 		state:"FL",
 		rooms:3,

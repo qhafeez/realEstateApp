@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 class Results extends Component{
 
 state={
-	
+	data:null
 }
 
 
@@ -23,23 +23,70 @@ sortAction = (event) =>{
 
 }
 
+componentDidUpdate(prevProps,prevState){
+	console.log("Results CDU")
+	console.log(this.props.selectedMarkerLatLng)
+
+	console.log(prevProps);
+	console.log(this.props);
+// 	if(prevProps !== this.props){
+// 	setTimeout(()=>{
+
+// 		const data = this.props.filteredData.map(item=>{
+			
+// 							let a=null
+// 							if(this.props.selectedMarkerLatLng !== null){
+//  						if(JSON.stringify(item.position) === JSON.stringify(this.props.selectedMarkerLatLng)){
+//  							a="y";
+//  						}
+// 							}
+
+// 						return <Listing active={a}  listingInfo={item}   />
+ 						
+ 						
+
+// 					});
+
+// 	this.setState({
+// 		data:data
+// 	});	
+// 	},10)
+					
+
+// }
+}
 
 	render(){
 
-		const data = this.props.data.map(item=>{
-						return <Listing listingInfo={item}   />
-					})
+let data=null;			
+
+ data = this.props.filteredData.map(item=>{
+			
+			let a=null
+				if(this.props.selectedMarkerLatLng !== null){
+ 					if(JSON.stringify(item.position) === JSON.stringify(this.props.selectedMarkerLatLng)){
+ 							a="y";
+ 						}
+					}
+
+					return <Listing active={a}  listingInfo={item}   />
+ 				});
+
+
+
+
+		
+
+			let style={display:"none"};
+				if(this.props.show ==="results"){
+					style = {display:"block"}
+				} 
 
 
 		return(
 					
-					<div  className={classes.resultsContainer} >
-						<div className={classes.sortContainer}>
-							<select name="sortBy" onChange={(e)=>{this.sortAction(e)}}>
-								<option value="ASC">Price: Low to High</option>
-								<option value="DSC">Price: High to Low</option>
-							</select>
-						</div>
+					<div style={style}  className={classes.resultsContainer} >
+						
 						
 						{data}	
 
@@ -50,6 +97,18 @@ sortAction = (event) =>{
 
 }
 
+const mapStateToProps = state =>{
+
+	return{
+		
+		filteredData: state.listings.filteredListings,
+		selectedMarkerLatLng:state.listings.selectedListingLatLng
+		
+	}
+
+}
+
+
 const mapDispatchToProps = dispatch =>{
 
 	return{
@@ -58,4 +117,4 @@ const mapDispatchToProps = dispatch =>{
 
 }
 
-export default connect(null, mapDispatchToProps)(Results);
+export default connect(mapStateToProps, mapDispatchToProps)(Results);

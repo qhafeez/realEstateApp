@@ -9,6 +9,27 @@ import Modal from "../../Components/UI/Modal/Modal";
 import {connect} from "react-redux";
 import { Icon } from 'react-icons-kit'
 import {close} from 'react-icons-kit/ikons/close'
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import Aux from "../../HOC/Aux/Aux";
+import axiosInstance from "axios";
+
+
+const MyMapComponent = withScriptjs(withGoogleMap((props) =>
+  <GoogleMap
+    defaultZoom={8}
+    defaultCenter={props.center}
+   	center={props.center}
+  >
+  
+
+  {props.children}
+  
+  
+  </GoogleMap>
+))
+
+
+
 
 class ListingsPage extends Component{
 
@@ -16,23 +37,12 @@ class ListingsPage extends Component{
 
 		state={
 			
-			// sortBy:"ASC",
-			// listingsData: listingsData,
-			// city:"All",
-			// homeType:"All",
-			// rooms:"All",
-			// min_price:0,
-			// max_price:10000000,
-			// min_floorspace:0,
-			// max_floorspace:50000,
-			// elevator:false,
-			// swimming_pool:false,
-			// finished_basement:false,
-			// gym:false,
-			// filteredData:listingsData,
-			// populateFormsData: "",
-			// view:"long",
-			filter:null
+			
+			filter:null,
+			markers:[],
+			show:false,
+			mapOrResults:"results",
+			selectedListingLatLng:null
 
 		}
 
@@ -182,12 +192,39 @@ componentDidUpdate(prevProps, prevState){
 	// 		console.log(this.state.filter)
 	// 	})
 	// }
+	console.log(this.props);
+
 	if(prevProps.match.params !== this.props.match.params){
 		this.props.sortAction(this.props.match.params);
 		console.log("listing page did update");
 		console.log(this.props.match.params);
 
 	}
+
+	if(prevProps.filteredData !== this.props.filteredData){
+
+
+		///this timeout is needed because fetching the data from the api
+		//caused a problem where the position object is created slightly too
+		//slowly and turns up undefined
+	setTimeout(()=>{
+
+		let markers = [...this.props.filteredData];
+
+
+
+	// console.log(this.props.filteredData[0].position.lat);
+		this.setState({
+			markers:markers,
+			center:markers[0].position
+		})
+
+
+	}, 1)
+	
+		
+
+	}	
 
 }
 
@@ -227,32 +264,122 @@ componentDidMount(){
 	// 	console.log(aaa.substring(aaa.indexOf("_")+1));
 
 	console.log(this.props.match.params);
-	this.props.sortAction(this.props.match.params)
+	this.props.sortAction(this.props.match.params);
+
+	
 
 
 }
 
+toggle=()=>{
 
+	let current = this.state.mapOrResults;
+
+	if(current === "map"){
+		current = "results";
+	} else{
+		current = "map"
+	}
+
+	this.setState({
+		mapOrResults:current
+	}, ()=>{
+		console.log(this.state);
+	})
+
+
+}
+
+getMP=(e)=>{
+
+	console.log(e);
+	let selectedListingLatLng={
+
+		lat:Number(e.latLng.lat().toFixed(7)),
+		lng:Number(e.latLng.lng().toFixed(7))
+	
+	}
+	
+
+		this.props.selectedListing(selectedListingLatLng);
+
+	
+	
+}
 
 	render(){
 
 		
 		// this.props.hello();
 
+		// const markers = this.props.filteredData.map(item=>{
+
+		// 	let address= item.address+",+"+item.city+",+"+item.state;
+		// 		address=address.split(" ").join("+");
+
+		// 	axiosInstance.get("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key=AIzaSyBBEq3v-DeflY5kVZMpIqSFByY4X-GPONY")
+		// 		.then((response)=>{
+		// 			console.log(response);
+		// 		})
+		// 		.catch((error)=>{
+		// 			console.log(error);
+		// 		})
+
+		// })
+
+			// // console.log(this.props.filteredData);
+			let markers = null;
+		
+			
+				if(this.state.markers.length >0){
+				 markers = this.state.markers.map(item=>{
+				 	// console.log(item.position.lat);
+					return <Marker  onClick={(e)=>{this.getMP(e)}} position={{lat:item.position.lat, lng:item.position.lng} } ref={this.props.getPosition}  />
+				})
+				}
+
+			
+			
+			
+
+
+
 		return(
-					
+					<Aux>
 					<div   className={classes.listingsPageContainer} >
 						<div className={classes.sortFilterContainer}>
 							<div className={classes.sortFilter}>
 								<div onClick={this.handler}>FILTER</div>
+								<div className={classes.mapList} onClick={this.toggle} >{this.state.mapOrResults ==="map"? "RESULTS":"MAP"}</div>
 								<select name="sortBy" onChange={this.sortHandler}>
 									<option value="ASC">Price: Low to High</option>
 									<option value="DSC">Price: High to Low</option>
 								</select>
 							</div>
 						</div>
-						<Filter populateFormsAction={this.populateForms} closeModal={this.handler} show={this.state.show} />
-						<Results data={this.props.filteredData} />
+
+						<div className={classes.mainContainer}>
+						<div className={classes.appContainer}>
+						<div style={this.state.mapOrResults ==="map" ? {display:"block"}:{display:"none"}} className={classes.mapContainer}>
+							<MyMapComponent
+								defaultCenter={this.state.markers.length>0 ? this.state.center:null}
+								center={this.state.markers.length>0 ? this.state.center:null}
+	  							isMarkerShown
+	  							googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBEq3v-DeflY5kVZMpIqSFByY4X-GPONY&v=3.exp&libraries=geometry,drawing,places"
+	  							loadingElement={<div style={{ height: `100%` }} />}
+	  							containerElement={<div style={{ height: `100%` }} />}
+	  							mapElement={<div style={{ height: `100%` }} />}
+							>
+								{markers}
+
+							</MyMapComponent>
+						</div>
+						<div className={classes.filterAndResultsContainer}>
+							<Filter populateFormsAction={this.populateForms} closeModal={this.handler} show={this.state.show} />
+							<Results  show={this.state.mapOrResults} />
+						</div>
+						</div>
+						</div>
 						
 						<Modal show={this.props.modalStatus} modalClosed={this.props.modalToggle}  >
 							<div className={classes.modalContainer}>
@@ -264,6 +391,8 @@ componentDidMount(){
 						</Modal>
 
 					</div>
+					
+					</Aux>
 			)
 
 	}
@@ -288,6 +417,7 @@ const mapDispatchToProps = dispatch =>{
 	return{
 		sortAction: (value)=>{dispatch(actions.filterActionPlusData(value))},
 		// sortAction: (name, value)=>{dispatch(actions.filterActionPlusData(name, value))},
+		selectedListing:(value)=>{dispatch(actions.selectedLatLng(value))},
 		filteredDataFunction:()=>{dispatch(actions.filterData())},
 		modalToggle:()=>{dispatch(actions.listingModalToggle())}
 	}

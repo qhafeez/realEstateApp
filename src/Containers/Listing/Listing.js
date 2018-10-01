@@ -11,7 +11,19 @@ state={
 }
 
 
+componentDidUpdate(){
+	console.log("listing CDU");
+}
 	render(){
+
+		let containerClasses = [classes.listingContainer]
+		console.log("Listing.js props.active "+this.props.active )
+		
+		if(this.props.active === "y"){
+			containerClasses.push(classes.selected);
+		}
+
+		console.log(containerClasses)
 
 
 const info = this.props.listingInfo;
@@ -19,7 +31,7 @@ const info = this.props.listingInfo;
 
 		return(
 					//mobileView
-				<div className={classes.listingContainer}>
+				<div className={containerClasses.join(" ")}>
 					<div onClick={()=>{this.props.openListingModal(info.image)}} className={classes.listingImgContainer} style={{backgroundImage:`url("${info.image}")`}}>
 						
 					</div>

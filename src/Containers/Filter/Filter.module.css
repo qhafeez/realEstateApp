@@ -93,14 +93,18 @@ input[type="text"] {
 @media (min-width:813px){
 	.filter{
 		display: flex;
-		width:30%;
+		width:40%;
 		margin:0;
-		max-width: 400px;
+		/*max-width: 400px;*/
 		position:fixed;
-		top:58px;
-		left:0px;
+		top:101px;
+		right:0px;
 		height:100vh;
 
+	}
+
+	.closeButtonContainer{
+		display:none;
 	}
 
 }

@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "jw-react-pagination": "^1.0.7",
     "normalize.css": "^8.0.0",
     "react": "^16.4.2",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.4.2",
+    "react-google-maps": "^9.4.5",
     "react-icons-kit": "^1.1.7",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
